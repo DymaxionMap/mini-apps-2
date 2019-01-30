@@ -1,33 +1,38 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import EventsList from './EventsList';
 import Search from './Search';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.LIMIT_PER_PAGE = 10;
     this.state = {
       events: [],
+      eventsPageCount: 0,
     }
-    this.handleChange = this.handleChange.bind(this);
     this.getEvents = this.getEvents.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ query: event.target.value });
-  }
-
-  getEvents(query) {
-    fetch(`/events?q=${query}`)
-      .then(request => request.json())
-      .then(events => this.setState({ events }));
+  getEvents(query, selected) {
+    axios.get(`/events?q=${query}&_page=${selected}`)
+      .then(res => {
+        const totalEventsCount =  res.headers['x-total-count'];
+        const events = res.data;
+        this.setState({
+          events,
+          eventsPageCount: Math.ceil(totalEventsCount / this.LIMIT_PER_PAGE),
+        })
+      });
   }
 
   render() {
+    const { events } = this.state;
     return (
       <div>
         <h1>Historical Events Finder</h1>
-        <Search getEvents={this.getEvents}/>
-        <EventsList events={this.state.events} />
+        <Search getEvents={this.getEvents} handleChange={this.handleChange}/>
+        <EventsList events={events} />
       </div>
     );
   }

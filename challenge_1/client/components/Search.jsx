@@ -25,7 +25,7 @@ class Search extends Component {
       <div>
         <label htmlFor="search">
           Search
-          <input id="search" type="text" onChange={this.handleChange}/>
+          <input id="search" type="text" onChange={this.handleChange} />
         </label>
         <button type="button" onClick={this.handleClick}>Submit</button>
       </div>

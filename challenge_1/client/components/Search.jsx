@@ -17,7 +17,7 @@ class Search extends Component {
   handleClick() {
     const { query } = this.state;
     const { getEvents } = this.props;
-    getEvents(query);
+    getEvents(query, 1);
   }
 
   render() {

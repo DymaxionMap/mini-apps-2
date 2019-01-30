@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 import EventsList from './EventsList';
 import Search from './Search';
 
@@ -10,29 +11,41 @@ class App extends Component {
     this.state = {
       events: [],
       eventsPageCount: 0,
-    }
+    };
     this.getEvents = this.getEvents.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   getEvents(query, selected) {
     axios.get(`/events?q=${query}&_page=${selected}`)
-      .then(res => {
-        const totalEventsCount =  res.headers['x-total-count'];
+      .then((res) => {
+        const totalEventsCount = res.headers['x-total-count'];
         const events = res.data;
         this.setState({
           events,
           eventsPageCount: Math.ceil(totalEventsCount / this.LIMIT_PER_PAGE),
-        })
+        });
       });
   }
 
+  handlePageChange(data) {
+    // TODO pass in search query instead of hardcoding it
+    this.getEvents('rome', data.selected);
+  }
+
   render() {
-    const { events } = this.state;
+    const { events, eventsPageCount } = this.state;
     return (
       <div>
         <h1>Historical Events Finder</h1>
-        <Search getEvents={this.getEvents} handleChange={this.handleChange}/>
+        <Search getEvents={this.getEvents} />
         <EventsList events={events} />
+        <ReactPaginate
+          pageCount={eventsPageCount}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     );
   }

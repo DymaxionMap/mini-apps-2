@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Editor extends Component {
   constructor(props) {
@@ -18,8 +19,7 @@ class Editor extends Component {
   updateDescription() {
     const { description } = this.state;
     const { toggleEditing, eventId } = this.props;
-    // TODO: Replace with API call to server
-    console.log(`"Updated" description for event ${eventId}: ${description}`);
+    axios.patch(`/events/${eventId}`, { description });
     toggleEditing();
   }
 

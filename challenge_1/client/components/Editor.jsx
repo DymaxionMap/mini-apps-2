@@ -17,8 +17,10 @@ class Editor extends Component {
 
   updateDescription() {
     const { description } = this.state;
+    const { toggleEditing } = this.props;
     // TODO: Replace with API call to server
     console.log('"Updated" description:', description);
+    toggleEditing();
   }
 
   render() {

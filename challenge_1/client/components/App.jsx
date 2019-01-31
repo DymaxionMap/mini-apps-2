@@ -33,12 +33,12 @@ class App extends Component {
   }
 
   setQuery(query) {
-    this.setState({ query }, () => this.getEvents());
+    this.setState({ query }, this.getEvents);
   }
 
   handlePageChange(data) {
     const selectedPage = data.selected + 1;
-    this.setState({ selectedPage }, () => this.getEvents());
+    this.setState({ selectedPage }, this.getEvents);
   }
 
   render() {

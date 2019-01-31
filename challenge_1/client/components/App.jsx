@@ -11,9 +11,11 @@ class App extends Component {
     this.state = {
       events: [],
       eventsPageCount: 0,
+      query: '',
     };
     this.getEvents = this.getEvents.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.setQuery = this.setQuery.bind(this);
   }
 
   getEvents(query, selected) {
@@ -28,9 +30,13 @@ class App extends Component {
       });
   }
 
+  setQuery(query) {
+    this.setState({ query });
+  }
+
   handlePageChange(data) {
-    // TODO pass in search query instead of hardcoding it
-    this.getEvents('rome', data.selected);
+    const { query } = this.state;
+    this.getEvents(query, data.selected);
   }
 
   render() {
@@ -38,7 +44,7 @@ class App extends Component {
     return (
       <div>
         <h1>Historical Events Finder</h1>
-        <Search getEvents={this.getEvents} />
+        <Search getEvents={this.getEvents} setQuery={this.setQuery} />
         <EventsList events={events} />
         <ReactPaginate
           pageCount={eventsPageCount}
@@ -52,4 +58,3 @@ class App extends Component {
 }
 
 export default App;
-

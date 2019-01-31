@@ -15,8 +15,8 @@ class App extends Component {
       selectedPage: 1,
     };
     this.getEvents = this.getEvents.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.setQuery = this.setQuery.bind(this);
   }
 
   getEvents() {
@@ -32,8 +32,8 @@ class App extends Component {
       });
   }
 
-  setQuery(query) {
-    this.setState({ query }, this.getEvents);
+  handleQueryChange(event) {
+    this.setState({ query: event.target.value });
   }
 
   handlePageChange(data) {
@@ -46,7 +46,7 @@ class App extends Component {
     return (
       <div>
         <h1>Historical Events Finder</h1>
-        <Search setQuery={this.setQuery} />
+        <Search handleQueryChange={this.handleQueryChange} getEvents={this.getEvents} />
         <EventsList events={events} getEvents={this.getEvents} />
         <ReactPaginate
           pageCount={eventsPageCount}

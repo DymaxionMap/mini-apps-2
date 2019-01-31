@@ -9,7 +9,7 @@ app.use(express.static('public'));
 
 const apiUrl = 'https://api.coindesk.com/v1/bpi/historical/close.json';
 
-app.get('/bpi', (req, res) => {
+app.get('/prices', (req, res) => {
   const { startDate, endDate } = req.query;
   axios.get(`${apiUrl}?start=${startDate}&end=${endDate}`)
     .then((response) => {

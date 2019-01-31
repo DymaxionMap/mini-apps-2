@@ -20,7 +20,7 @@ class App extends Component {
   getData(startDate = '2018-12-01', endDate = '2019-01-30') {
     axios({
       method: 'GET',
-      url: '/bpi',
+      url: '/prices',
       params: {
         startDate,
         endDate,

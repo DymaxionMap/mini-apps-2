@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Chart from './Chart';
+import DateSelector from './DateSelector';
 
 class App extends Component {
   constructor(props) {
@@ -8,8 +9,6 @@ class App extends Component {
     this.state = {
       dates: [],
       currencies: [],
-      startDate: '2018-12-01',
-      endDate: '2019-01-30',
     };
     this.getData = this.getData.bind(this);
   }
@@ -18,8 +17,7 @@ class App extends Component {
     this.getData();
   }
 
-  getData() {
-    const { startDate, endDate } = this.state;
+  getData(startDate = '2018-12-01', endDate = '2019-01-30') {
     axios({
       method: 'GET',
       url: '/bpi',
@@ -46,6 +44,7 @@ class App extends Component {
     return (
       <div>
         <h1>Cryptocurrency Chart Tool</h1>
+        <DateSelector getData={this.getData} />
         <Chart dates={dates} currencies={currencies} />
       </div>
     );

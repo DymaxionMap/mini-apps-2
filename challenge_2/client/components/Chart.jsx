@@ -5,18 +5,23 @@ class Chart extends Component {
   constructor(props) {
     super(props);
     this.canvas = React.createRef();
-    this.ctx = null;
+    this.chart = null;
   }
 
   componentDidMount() {
-    this.ctx = this.canvas.current;
+    const ctx = this.canvas.current;
+    const { dates, currencies } = this.props;
+    this.chart = makeChart(ctx, dates, currencies);
+  }
+
+  componentDidUpdate() {
+    const ctx = this.canvas.current;
+    const { dates, currencies } = this.props;
+    this.chart.destroy();
+    this.chart = makeChart(ctx, dates, currencies);
   }
 
   render() {
-    const { dates, currencies } = this.props;
-    if (this.ctx) {
-      makeChart(this.ctx, dates, currencies);
-    }
     return (
       <canvas ref={this.canvas} id="chart" width="400" height="300" />
     );

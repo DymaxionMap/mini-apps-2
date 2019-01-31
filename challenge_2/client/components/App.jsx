@@ -16,6 +16,16 @@ const makeChart = (ctx, labels, data) => {
   return new Chart(ctx, {
     type: 'bar',
     data: barChartData,
+    options: {
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Closing price ($)',
+          },
+        }],
+      },
+    },
   });
 };
 

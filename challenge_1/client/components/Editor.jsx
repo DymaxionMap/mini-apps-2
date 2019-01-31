@@ -23,10 +23,11 @@ class Editor extends Component {
 
   render() {
     const { description } = this.state;
+    const { toggleEditing } = this.props;
     return (
       <form>
         <textarea onChange={this.handleChange} defaultValue={description} />
-        <button type="button">Cancel</button>
+        <button type="button" onClick={toggleEditing}>Cancel</button>
         <button type="button" onClick={this.updateDescription}>Save</button>
       </form>
     );

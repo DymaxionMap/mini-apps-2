@@ -19,6 +19,9 @@ class Event extends Component {
     const { event } = this.props;
     const { date, description } = event;
     const { editing } = this.state;
+    const descriptionArea = (editing)
+      ? <Editor description={description} toggleEditing={this.toggleEditing} />
+      : description;
     return (
       <div>
         <div>
@@ -26,7 +29,7 @@ class Event extends Component {
           {date}
         </div>
         <div>
-          {editing ? <Editor description={description} /> : description}
+          {descriptionArea}
         </div>
         <button type="button" onClick={this.toggleEditing}>Edit</button>
       </div>

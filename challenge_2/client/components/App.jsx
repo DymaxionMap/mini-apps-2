@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js';
 
-const makeChart = (ctx) => {
+const makeChart = (ctx, labels, data) => {
+  const barChartData = {
+    labels,
+    datasets: [{
+      data,
+      label: 'Bitcoin',
+      backgroundColor: '#4286f4',
+      borderColor: '#4286f4',
+      borderWidth: 1,
+    }],
+  };
   return new Chart(ctx, {
-    type: 'line',
-    data: {
-      datasets: [{
-        data: [1, 2, 3, 4],
-      }],
-    },
+    type: 'bar',
+    data: barChartData,
   });
 };
 
@@ -23,12 +29,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // TODO: Pass API data to canvas
     const ctx = this.canvas.current;
-    makeChart(ctx);
     axios.get('/bpi')
       .then((response) => {
-        this.setState({ bpi: response.data });
+        const { data } = response;
+        const { bpi } = data;
+        const dates = Object.keys(bpi);
+        const prices = Object.values(bpi);
+        makeChart(ctx, dates, prices);
+        this.setState({ bpi }, () => {
+          makeChart(ctx, dates, prices);
+        });
       });
   }
 
@@ -36,7 +47,7 @@ class App extends Component {
     const { bpi } = this.state;
     return (
       <div>
-        <h1>Cryptocurrency Charter</h1>
+        <h1>Cryptocurrency Chart Tool</h1>
         <div>{JSON.stringify(bpi)}</div>
         <canvas ref={this.canvas} id="chart" width="400" height="300" />
       </div>

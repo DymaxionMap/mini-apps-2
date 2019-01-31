@@ -8,12 +8,26 @@ class App extends Component {
     this.state = {
       dates: [],
       currencies: [],
+      startDate: '2018-12-01',
+      endDate: '2019-01-30',
     };
-    this.canvas = React.createRef();
+    this.getData = this.getData.bind(this);
   }
 
   componentDidMount() {
-    axios.get('/bpi')
+    this.getData();
+  }
+
+  getData() {
+    const { startDate, endDate } = this.state;
+    axios({
+      method: 'GET',
+      url: '/bpi',
+      params: {
+        startDate,
+        endDate,
+      },
+    })
       .then((response) => {
         const { data } = response;
         const { bpi } = data;

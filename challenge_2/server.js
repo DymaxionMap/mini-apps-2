@@ -4,13 +4,13 @@ const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 const apiUrl = 'https://api.coindesk.com/v1/bpi/historical/close.json';
-const startDate = '2018-12-01';
-const endDate = '2019-01-31';
 
 app.get('/bpi', (req, res) => {
+  const { startDate, endDate } = req.query;
   axios.get(`${apiUrl}?start=${startDate}&end=${endDate}`)
     .then((response) => {
       res.send(response.data);

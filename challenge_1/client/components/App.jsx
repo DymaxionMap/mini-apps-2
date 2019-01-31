@@ -21,7 +21,7 @@ class App extends Component {
 
   getEvents() {
     const { query, selectedPage } = this.state;
-    axios.get(`/events?q=${query}&_page=${selectedPage}`)
+    axios.get(`/events?q=${query}&_page=${selectedPage}&_limit={this.LIMIT_PER_PAGE}`)
       .then((res) => {
         const totalEventsCount = Number(res.headers['x-total-count']);
         const events = res.data;

@@ -21,7 +21,7 @@ class App extends Component {
   getEvents(query, selected) {
     axios.get(`/events?q=${query}&_page=${selected}`)
       .then((res) => {
-        const totalEventsCount = res.headers['x-total-count'];
+        const totalEventsCount = Number(res.headers['x-total-count']);
         const events = res.data;
         this.setState({
           events,
@@ -36,7 +36,8 @@ class App extends Component {
 
   handlePageChange(data) {
     const { query } = this.state;
-    this.getEvents(query, data.selected);
+    const pageNum = data.selected + 1;
+    this.getEvents(query, pageNum);
   }
 
   render() {

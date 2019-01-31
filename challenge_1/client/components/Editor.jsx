@@ -18,9 +18,12 @@ class Editor extends Component {
 
   updateDescription() {
     const { description } = this.state;
-    const { toggleEditing, eventId } = this.props;
-    axios.patch(`/events/${eventId}`, { description });
-    toggleEditing();
+    const { toggleEditing, eventId, getEvents } = this.props;
+    axios.patch(`/events/${eventId}`, { description })
+      .then(() => {
+        toggleEditing();
+        getEvents();
+      });
   }
 
   render() {

@@ -47,7 +47,7 @@ class App extends Component {
       <div>
         <h1>Historical Events Finder</h1>
         <Search setQuery={this.setQuery} />
-        <EventsList events={events} />
+        <EventsList events={events} getEvents={this.getEvents} />
         <ReactPaginate
           pageCount={eventsPageCount}
           pageRangeDisplayed={5}

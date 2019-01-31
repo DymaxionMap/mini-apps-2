@@ -16,11 +16,18 @@ class Event extends Component {
   }
 
   render() {
-    const { event } = this.props;
+    const { event, getEvents } = this.props;
     const { id, date, description } = event;
     const { editing } = this.state;
     const descriptionArea = (editing)
-      ? <Editor description={description} toggleEditing={this.toggleEditing} eventId={id} />
+      ? (
+        <Editor
+          description={description}
+          toggleEditing={this.toggleEditing}
+          eventId={id}
+          getEvents={getEvents}
+        />
+      )
       : description;
     return (
       <div>

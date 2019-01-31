@@ -12,14 +12,16 @@ class App extends Component {
       events: [],
       eventsPageCount: 0,
       query: '',
+      selectedPage: 1,
     };
     this.getEvents = this.getEvents.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.setQuery = this.setQuery.bind(this);
   }
 
-  getEvents(query, selected) {
-    axios.get(`/events?q=${query}&_page=${selected}`)
+  getEvents() {
+    const { query, selectedPage } = this.state;
+    axios.get(`/events?q=${query}&_page=${selectedPage}`)
       .then((res) => {
         const totalEventsCount = Number(res.headers['x-total-count']);
         const events = res.data;
@@ -31,13 +33,12 @@ class App extends Component {
   }
 
   setQuery(query) {
-    this.setState({ query });
+    this.setState({ query }, () => this.getEvents());
   }
 
   handlePageChange(data) {
-    const { query } = this.state;
-    const pageNum = data.selected + 1;
-    this.getEvents(query, pageNum);
+    const selectedPage = data.selected + 1;
+    this.setState({ selectedPage }, () => this.getEvents());
   }
 
   render() {
@@ -45,7 +46,7 @@ class App extends Component {
     return (
       <div>
         <h1>Historical Events Finder</h1>
-        <Search getEvents={this.getEvents} setQuery={this.setQuery} />
+        <Search setQuery={this.setQuery} />
         <EventsList events={events} />
         <ReactPaginate
           pageCount={eventsPageCount}

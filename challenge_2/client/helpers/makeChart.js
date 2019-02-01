@@ -2,9 +2,9 @@ import Chart from 'chart.js';
 import chartColors from './chartColors';
 
 const makeDatasets = currencies => (
-  currencies.map(({ name, prices }, index) => ({
+  currencies.map(({ name, closePrices }, index) => ({
     label: name,
-    data: prices,
+    data: closePrices,
     backgroundColor: Object.values(chartColors)[index],
     borderColor: Object.values(chartColors)[index],
     borderWidth: 1,

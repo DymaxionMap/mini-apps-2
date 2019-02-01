@@ -28,11 +28,12 @@ class App extends Component {
     })
       .then((response) => {
         const { data } = response;
-        const { bpi } = data;
-        const dates = Object.keys(bpi);
-        const prices = Object.values(bpi);
+        const { dates, openPrices, closePrices, highPrices, lowPrices } = data;
         const currencies = [{
-          prices,
+          openPrices,
+          closePrices,
+          highPrices,
+          lowPrices,
           name: 'Bitcoin',
         }];
         this.setState({ dates, currencies });

@@ -17,7 +17,7 @@ const formatData = data => ({
 
 const getPrices = (req, res) => {
   const { startDate, endDate, symbol: fromSymbol } = req.query;
-  const cacheKey = [fromSymbol, startDate, endDate].join(',');
+  const cacheKey = [fromSymbol, startDate, endDate].join();
   client.getAsync(cacheKey)
     .then((reply) => {
       if (reply === null) {

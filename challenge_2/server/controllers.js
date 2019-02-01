@@ -14,8 +14,8 @@ const formatData = data => ({
 });
 
 const getPrices = (req, res) => {
-  const { startDate, endDate } = req.query;
-  const fromSymbol = 'BTC';
+  const { startDate, endDate, symbol: fromSymbol } = req.query;
+  // const fromSymbol = 'BTC';
   const endTime = dateToUnixTime(endDate);
   const numDays = daysBetweenDates(startDate, endDate);
   axios.get(`${apiUrl}?fsym=${fromSymbol}&tsym=${toSymbol}&toTs=${endTime}&limit=${numDays}`)

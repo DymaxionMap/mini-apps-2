@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Chart from './Chart';
-import DateSelector from './DateSelector';
+import Search from './Search';
 
 class App extends Component {
   constructor(props) {
@@ -17,11 +17,12 @@ class App extends Component {
     this.getData();
   }
 
-  getData(startDate = '2018-12-01', endDate = '2019-01-30') {
+  getData(symbol = 'BTC', startDate = '2018-12-01', endDate = '2019-01-30') {
     axios({
       method: 'GET',
       url: '/prices',
       params: {
+        symbol,
         startDate,
         endDate,
       },
@@ -34,7 +35,7 @@ class App extends Component {
           closePrices,
           highPrices,
           lowPrices,
-          name: 'Bitcoin',
+          name: symbol,
         }];
         this.setState({ dates, currencies });
       });
@@ -45,7 +46,7 @@ class App extends Component {
     return (
       <div>
         <h1>Cryptocurrency Chart Tool</h1>
-        <DateSelector getData={this.getData} />
+        <Search getData={this.getData} />
         <Chart dates={dates} currencies={currencies} />
       </div>
     );

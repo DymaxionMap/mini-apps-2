@@ -1,9 +1,18 @@
 const axios = require('axios');
-const { apiUrl } = require('./config');
+const { dateToUnixTime, daysBetweenDates } = require('./helpers/convertDate');
+
+const apiUrl = 'https://min-api.cryptocompare.com/data/histoday';
+const toSymbol = 'USD';
 
 const getPrices = (req, res) => {
-  const { startDate, endDate } = req.query;
-  axios.get(`${apiUrl}?start=${startDate}&end=${endDate}`)
+  // let { startDate, endDate } = req.query;
+  // TODO: Hook this back up to the client
+  const fromSymbol = 'ETH';
+  const startDate = '2018-10-30';
+  const endDate = '2018-11-30';
+  const endTime = dateToUnixTime(endDate);
+  const numDays = daysBetweenDates(startDate, endDate);
+  axios.get(`${apiUrl}?fsym=${fromSymbol}&tsym=${toSymbol}&toTs=${endTime}&limit=${numDays}`)
     .then((response) => {
       res.send(response.data);
     })
